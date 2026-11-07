@@ -59,15 +59,33 @@
     border-radius: 8px;
   }
   nav a:hover { background: rgba(255, 255, 255, .16); color: #fff; }
-  /* ---------- layout ---------- */
+  /* ---------- layout & halaman ---------- */
   main { max-width: 1020px; margin: 0 auto; padding: 0 20px 40px; }
   section { padding: 44px 0 8px; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .back {
+    background: none;
+    border: none;
+    color: #0284c7;
+    font-size: .95rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  .back:hover { text-decoration: underline; }
   h2 {
     color: #075985;
     font-size: 1.6rem;
     margin-bottom: 6px;
     padding-bottom: 8px;
     border-bottom: 3px solid #bae6fd;
+  }
+  h3.sub {
+    color: #0369a1;
+    font-size: 1.15rem;
+    margin: 26px 0 10px;
   }
   .intro { color: #475569; margin-bottom: 18px; max-width: 760px; }
   .card {
@@ -121,17 +139,6 @@
     margin-bottom: 14px;
   }
   .hero p.lead { max-width: 720px; margin: 0 auto 18px; color: #334155; }
-  .badges { margin-bottom: 20px; }
-  .badge {
-    display: inline-block;
-    font-size: .88rem;
-    font-weight: 700;
-    padding: 7px 14px;
-    border-radius: 999px;
-    margin: 4px;
-  }
-  .badge.gold { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
-  .badge.blue { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
   /* ---------- fitur ---------- */
   .fitur-grid {
     display: grid;
@@ -147,6 +154,25 @@
   }
   .fitur h3 { color: #0369a1; font-size: 1.05rem; margin-bottom: 6px; }
   .fitur p { font-size: .95rem; color: #475569; }
+  /* ---------- akses cepat (dashboard) ---------- */
+  .akses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .akses-card {
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    padding: 18px 20px;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 3px 12px rgba(2, 132, 199, .07);
+  }
+  .akses-card:hover { border-color: #0284c7; }
+  .akses-card h4 { color: #0369a1; font-size: 1.02rem; margin-bottom: 4px; }
+  .akses-card p { font-size: .93rem; color: #475569; }
+  .akses-card span { color: #0284c7; font-weight: 700; font-size: .92rem; }
   /* ---------- demo ---------- */
   .kode-box {
     background: #0c4a6e;
@@ -265,16 +291,16 @@
 
 <header>
   <div class="nav-wrap">
-    <a class="brand" href="#beranda">KELANA<small>Portal Resmi</small></a>
+    <a class="brand" href="#beranda" data-page="beranda">KELANA<small>Portal Resmi</small></a>
     <nav>
       <ul>
-        <li><a href="#tentang">Tentang</a></li>
-        <li><a href="#demo">Demo</a></li>
-        <li><a href="#cara-mendapatkan">Cara Mendapatkan</a></li>
-        <li><a href="#unduh">Unduh &amp; Panduan</a></li>
-        <li><a href="#video">Video</a></li>
-        <li><a href="#faq">Tanya Jawab</a></li>
-        <li><a href="#kontak">Kontak</a></li>
+        <li><a href="#dashboard" data-page="dashboard">Dashboard</a></li>
+        <li><a href="#demo" data-page="demo">Demo</a></li>
+        <li><a href="#cara-mendapatkan" data-page="cara-mendapatkan">Cara Mendapatkan</a></li>
+        <li><a href="#unduh" data-page="unduh">Unduh &amp; Panduan</a></li>
+        <li><a href="#video" data-page="video">Video</a></li>
+        <li><a href="#faq" data-page="faq">Tanya Jawab</a></li>
+        <li><a href="#kontak" data-page="kontak">Kontak</a></li>
       </ul>
     </nav>
   </div>
@@ -282,22 +308,19 @@
 
 <main>
 
-  <!-- HERO -->
-  <section id="beranda" class="hero">
+  <!-- BERANDA (hero, tampil di awal) -->
+  <section id="beranda" class="page hero active">
     <h1>Kelana: Aplikasi Server Pembelajaran Digital Berbasis Python Terintegrasi Papan Interaktif Digital</h1>
     <p class="tagline">Belajar optimal walau internet terkendala</p>
     <p class="lead">KELANA adalah aplikasi server pembelajaran digital luring&ndash;daring untuk sekolah: guru berbagi berkas dan materi, murid mengerjakan kuis, dan hasilnya terekam otomatis &mdash; dengan atau tanpa internet.</p>
-    <div class="badges">
-      <span class="badge gold">Juara 1 Tingkat Provinsi Jawa Tengah &mdash; AGKI 2026</span>
-      <span class="badge blue">Final Nasional &mdash; 26 November 2026</span>
-    </div>
     <a class="btn" href="https://kelas.wartam.web.id/" target="_blank" rel="noopener">Coba Demo</a>
     <a class="btn ghost" href="https://wartam-mjng.github.io/form-kelana/" target="_blank" rel="noopener">Pesan KELANA</a>
   </section>
 
-  <!-- TENTANG / FITUR -->
-  <section id="tentang">
-    <h2>Tentang KELANA</h2>
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
+    <h2>Dashboard</h2>
     <p class="intro">KELANA dikembangkan oleh Wartam, S.Pd., guru Matematika SMP Negeri 4 Majenang, Kabupaten Cilacap. Aplikasi ini lahir dari kebutuhan nyata di kelas: sekolah belum memiliki internet kabel dan Papan Interaktif Digital belum termanfaatkan optimal, sementara hampir seluruh murid memiliki HP. KELANA dirancang dua opsi &mdash; KELANA Daring bagi murid yang memiliki kuota, dan KELANA Luring melalui wifi/LAN sekolah bagi yang tidak &mdash; sehingga tidak ada murid yang tertinggal.</p>
     <div class="fitur-grid">
       <div class="fitur">
@@ -329,10 +352,44 @@
         <p>KELANA tetap berjalan di jaringan lokal sekolah ketika internet berkendala, dan tetap dapat diakses daring ketika internet tersedia.</p>
       </div>
     </div>
+    <h3 class="sub">Akses Cepat</h3>
+    <div class="akses-grid">
+      <a class="akses-card" href="#demo" data-page="demo">
+        <h4>Coba Demo</h4>
+        <p>Jajal KELANA langsung di server demo dengan username demo.</p>
+        <span>Buka &rarr;</span>
+      </a>
+      <a class="akses-card" href="#cara-mendapatkan" data-page="cara-mendapatkan">
+        <h4>Cara Mendapatkan</h4>
+        <p>Empat langkah menghadirkan KELANA di sekolah Anda.</p>
+        <span>Buka &rarr;</span>
+      </a>
+      <a class="akses-card" href="#unduh" data-page="unduh">
+        <h4>Unduh &amp; Panduan</h4>
+        <p>Tiga bentuk pemasangan: Exe Windows, Paket Python, dan Paket VM.</p>
+        <span>Buka &rarr;</span>
+      </a>
+      <a class="akses-card" href="#video" data-page="video">
+        <h4>Video</h4>
+        <p>Diseminasi KELANA ke rekan sejawat (21:16).</p>
+        <span>Buka &rarr;</span>
+      </a>
+      <a class="akses-card" href="#faq" data-page="faq">
+        <h4>Tanya Jawab</h4>
+        <p>Jawaban atas pertanyaan yang sering ditanyakan tentang KELANA.</p>
+        <span>Buka &rarr;</span>
+      </a>
+      <a class="akses-card" href="#kontak" data-page="kontak">
+        <h4>Kontak</h4>
+        <p>Hubungi pengembang KELANA lewat WhatsApp, Telegram, atau email.</p>
+        <span>Buka &rarr;</span>
+      </a>
+    </div>
   </section>
 
   <!-- DEMO -->
-  <section id="demo">
+  <section id="demo" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
     <h2>Coba Demo</h2>
     <p class="intro">Silakan mencoba KELANA secara langsung pada server demo. Tidak perlu mendaftar &mdash; gunakan salah satu username demo di bawah ini.</p>
     <div class="card">
@@ -347,7 +404,8 @@
   </section>
 
   <!-- CARA MENDAPATKAN -->
-  <section id="cara-mendapatkan">
+  <section id="cara-mendapatkan" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
     <h2>Cara Mendapatkan KELANA</h2>
     <p class="intro">Empat langkah mudah untuk menghadirkan KELANA di sekolah Anda.</p>
     <ol class="langkah">
@@ -374,7 +432,8 @@
   </section>
 
   <!-- UNDUH & PANDUAN -->
-  <section id="unduh">
+  <section id="unduh" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
     <h2>Unduh &amp; Panduan</h2>
     <p class="intro">Paket KELANA dikirim setelah pesanan disetujui. Tersedia dalam tiga bentuk pemasangan:</p>
     <div class="fitur-grid">
@@ -395,7 +454,8 @@
   </section>
 
   <!-- VIDEO -->
-  <section id="video">
+  <section id="video" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
     <h2>Video</h2>
     <p class="intro">Simak bagaimana KELANA diseminasi dan digunakan bersama rekan sejawat.</p>
     <div class="video-card">
@@ -406,7 +466,8 @@
   </section>
 
   <!-- TANYA JAWAB -->
-  <section id="faq">
+  <section id="faq" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
     <h2>Tanya Jawab</h2>
     <details>
       <summary>Apa itu KELANA?</summary>
@@ -431,7 +492,8 @@
   </section>
 
   <!-- KONTAK -->
-  <section id="kontak">
+  <section id="kontak" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
     <h2>Kontak</h2>
     <p class="intro">Punya pertanyaan tentang KELANA? Silakan hubungi:</p>
     <div class="kontak-grid">
@@ -451,10 +513,6 @@
         <h3>Portal Utama</h3>
         <a href="https://portal.wartam.web.id/" target="_blank" rel="noopener">portal.wartam.web.id</a>
       </div>
-      <div class="kontak-item">
-        <h3>Situs PGRI</h3>
-        <a href="https://pgri.wartam.web.id/" target="_blank" rel="noopener">pgri.wartam.web.id</a>
-      </div>
     </div>
   </section>
 
@@ -464,6 +522,28 @@
   <p><span class="tag">KELANA</span> &mdash; Belajar optimal walau internet terkendala</p>
   <p>Dikembangkan oleh Wartam, S.Pd., SMP Negeri 4 Majenang</p>
 </footer>
+
+<script>
+(function(){
+  function show(id){
+    var ok = !!document.getElementById(id);
+    if(!ok) id = "beranda";
+    document.querySelectorAll(".page").forEach(function(p){
+      p.classList.toggle("active", p.id === id);
+    });
+    try{ history.replaceState(null, "", "#" + id); }catch(e){}
+    window.scrollTo(0, 0);
+  }
+  document.addEventListener("click", function(e){
+    var t = e.target.closest("[data-page]");
+    if(!t) return;
+    e.preventDefault();
+    show(t.getAttribute("data-page"));
+  });
+  var h = (location.hash || "").replace("#", "");
+  show(document.getElementById(h) ? h : "beranda");
+})();
+</script>
 
 </body>
 </html>
