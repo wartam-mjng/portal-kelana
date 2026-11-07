@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KELANA — Portal Resmi Aplikasi Server Pembelajaran Digital</title>
+<meta name="description" content="KELANA: Aplikasi Server Pembelajaran Digital Berbasis Python Terintegrasi Papan Interaktif Digital. Belajar optimal walau internet terkendala.">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+    color: #1e3a4c;
+    background: #f4f9fc;
+    line-height: 1.65;
+  }
+  a { color: #0284c7; }
+  /* ---------- header / nav ---------- */
+  header {
+    background: linear-gradient(135deg, #075985 0%, #0369a1 55%, #0284c7 100%);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 12px rgba(2, 90, 140, .35);
+  }
+  .nav-wrap {
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    color: #fff;
+    text-decoration: none;
+    margin-right: auto;
+  }
+  .brand small {
+    display: block;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    color: #bae6fd;
+    text-transform: uppercase;
+  }
+  nav ul { list-style: none; display: flex; gap: 4px; flex-wrap: wrap; }
+  nav a {
+    color: #e0f2fe;
+    text-decoration: none;
+    font-size: .92rem;
+    font-weight: 600;
+    padding: 7px 11px;
+    border-radius: 8px;
+  }
+  nav a:hover { background: rgba(255, 255, 255, .16); color: #fff; }
+  /* ---------- layout ---------- */
+  main { max-width: 1020px; margin: 0 auto; padding: 0 20px 40px; }
+  section { padding: 44px 0 8px; }
+  h2 {
+    color: #075985;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #bae6fd;
+  }
+  .intro { color: #475569; margin-bottom: 18px; max-width: 760px; }
+  .card {
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 3px 14px rgba(2, 132, 199, .08);
+  }
+  .btn {
+    display: inline-block;
+    background: #0284c7;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 13px 26px;
+    border-radius: 12px;
+    margin: 6px 8px 6px 0;
+    box-shadow: 0 4px 0 #075985;
+    transition: transform .1s, box-shadow .1s;
+  }
+  .btn:hover { background: #0369a1; }
+  .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #075985; }
+  .btn.ghost {
+    background: #fff;
+    color: #0369a1;
+    border: 2px solid #0284c7;
+    box-shadow: none;
+  }
+  .btn.ghost:hover { background: #f0f9ff; }
+  /* ---------- hero ---------- */
+  .hero {
+    background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 70%, #f4f9fc 100%);
+    border-radius: 0 0 24px 24px;
+    padding: 52px 24px 40px;
+    text-align: center;
+    margin: 0 -20px;
+  }
+  .hero h1 {
+    color: #075985;
+    font-size: clamp(1.5rem, 4.2vw, 2.3rem);
+    line-height: 1.3;
+    max-width: 820px;
+    margin: 0 auto 10px;
+  }
+  .tagline {
+    font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+    font-weight: 700;
+    color: #b45309;
+    margin-bottom: 14px;
+  }
+  .hero p.lead { max-width: 720px; margin: 0 auto 18px; color: #334155; }
+  .badges { margin-bottom: 20px; }
+  .badge {
+    display: inline-block;
+    font-size: .88rem;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin: 4px;
+  }
+  .badge.gold { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+  .badge.blue { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+  /* ---------- fitur ---------- */
+  .fitur-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .fitur {
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 3px 12px rgba(2, 132, 199, .07);
+  }
+  .fitur h3 { color: #0369a1; font-size: 1.05rem; margin-bottom: 6px; }
+  .fitur p { font-size: .95rem; color: #475569; }
+  /* ---------- demo ---------- */
+  .kode-box {
+    background: #0c4a6e;
+    color: #e0f2fe;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 14px 0;
+  }
+  .kode-box h3 { color: #fff; margin-bottom: 8px; }
+  .kode-box code {
+    background: rgba(255, 255, 255, .14);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .kode-box p { margin-bottom: 6px; }
+  .note {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: .93rem;
+  }
+  /* ---------- langkah ---------- */
+  .langkah { list-style: none; counter-reset: langkah; }
+  .langkah li {
+    counter-increment: langkah;
+    position: relative;
+    padding: 0 0 16px 52px;
+  }
+  .langkah li::before {
+    content: counter(langkah);
+    position: absolute;
+    left: 0; top: 0;
+    width: 36px; height: 36px;
+    background: #0284c7;
+    color: #fff;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .langkah h3 { color: #0369a1; font-size: 1.05rem; }
+  .langkah p { color: #475569; font-size: .96rem; }
+  /* ---------- video ---------- */
+  .video-card {
+    background: #0c4a6e;
+    color: #e0f2fe;
+    border-radius: 16px;
+    padding: 26px 28px;
+  }
+  .video-card h3 { color: #fff; font-size: 1.15rem; margin-bottom: 8px; }
+  .video-card p { margin-bottom: 14px; }
+  .video-card .durasi {
+    display: inline-block;
+    background: rgba(255, 255, 255, .16);
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 700;
+  }
+  .video-card .btn { margin-top: 6px; }
+  /* ---------- faq ---------- */
+  details {
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  summary {
+    font-weight: 700;
+    color: #0369a1;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  details p { margin-top: 8px; color: #475569; font-size: .96rem; }
+  /* ---------- kontak ---------- */
+  .kontak-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .kontak-item {
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .kontak-item h3 { color: #0369a1; font-size: 1rem; margin-bottom: 4px; }
+  .kontak-item a { word-break: break-all; font-size: .95rem; }
+  /* ---------- footer ---------- */
+  footer {
+    background: #075985;
+    color: #e0f2fe;
+    text-align: center;
+    padding: 26px 20px;
+    font-size: .95rem;
+  }
+  footer a { color: #bae6fd; }
+  footer .tag { color: #fcd34d; font-weight: 700; }
+  @media (max-width: 640px) {
+    .nav-wrap { gap: 8px; }
+    nav ul { gap: 0; }
+    nav a { padding: 6px 8px; font-size: .86rem; }
+    section { padding-top: 32px; }
+    .hero { padding: 36px 16px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <a class="brand" href="#beranda">KELANA<small>Portal Resmi</small></a>
+    <nav>
+      <ul>
+        <li><a href="#tentang">Tentang</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#cara-mendapatkan">Cara Mendapatkan</a></li>
+        <li><a href="#unduh">Unduh &amp; Panduan</a></li>
+        <li><a href="#video">Video</a></li>
+        <li><a href="#faq">Tanya Jawab</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section id="beranda" class="hero">
+    <h1>Kelana: Aplikasi Server Pembelajaran Digital Berbasis Python Terintegrasi Papan Interaktif Digital</h1>
+    <p class="tagline">Belajar optimal walau internet terkendala</p>
+    <p class="lead">KELANA adalah aplikasi server pembelajaran digital luring&ndash;daring untuk sekolah: guru berbagi berkas dan materi, murid mengerjakan kuis, dan hasilnya terekam otomatis &mdash; dengan atau tanpa internet.</p>
+    <div class="badges">
+      <span class="badge gold">Juara 1 Tingkat Provinsi Jawa Tengah &mdash; AGKI 2026</span>
+      <span class="badge blue">Final Nasional &mdash; 26 November 2026</span>
+    </div>
+    <a class="btn" href="https://kelas.wartam.web.id/" target="_blank" rel="noopener">Coba Demo</a>
+    <a class="btn ghost" href="https://wartam-mjng.github.io/form-kelana/" target="_blank" rel="noopener">Pesan KELANA</a>
+  </section>
+
+  <!-- TENTANG / FITUR -->
+  <section id="tentang">
+    <h2>Tentang KELANA</h2>
+    <p class="intro">KELANA dikembangkan oleh Wartam, S.Pd., guru Matematika SMP Negeri 4 Majenang, Kabupaten Cilacap. Aplikasi ini lahir dari kebutuhan nyata di kelas: sekolah belum memiliki internet kabel dan Papan Interaktif Digital belum termanfaatkan optimal, sementara hampir seluruh murid memiliki HP. KELANA dirancang dua opsi &mdash; KELANA Daring bagi murid yang memiliki kuota, dan KELANA Luring melalui wifi/LAN sekolah bagi yang tidak &mdash; sehingga tidak ada murid yang tertinggal.</p>
+    <div class="fitur-grid">
+      <div class="fitur">
+        <h3>Satu perangkat per username murid</h3>
+        <p>Setiap murid masuk dengan username sendiri. Masuk dari perangkat baru akan mengakhiri sesi lama, jadi satu username hanya aktif di satu perangkat.</p>
+      </div>
+      <div class="fitur">
+        <h3>Berbagi berkas luring&ndash;daring</h3>
+        <p>Guru membagikan materi dan berkas lewat server sekolah maupun daring, dan murid mengunduhnya dari HP atau laptop masing-masing.</p>
+      </div>
+      <div class="fitur">
+        <h3>Kuis dengan koreksi otomatis</h3>
+        <p>Kuis interaktif terintegrasi dengan koreksi otomatis, sehingga guru langsung melihat hasil tanpa memeriksa satu per satu.</p>
+      </div>
+      <div class="fitur">
+        <h3>Rekap hasil unduh CSV</h3>
+        <p>Seluruh hasil kiriman murid terekam otomatis dan dapat diunduh sebagai CSV untuk diolah lebih lanjut.</p>
+      </div>
+      <div class="fitur">
+        <h3>Admin bertingkat</h3>
+        <p>Admin utama dan admin biasa dengan hak akses berbeda; guru/admin mengatur username dan materi per murid.</p>
+      </div>
+      <div class="fitur">
+        <h3>Terintegrasi Papan Interaktif Digital</h3>
+        <p>Papan Interaktif Digital menjadi pusat kendali: guru mengelola username, materi, dan hasil murid langsung dari layar kelas.</p>
+      </div>
+      <div class="fitur">
+        <h3>Jalan dengan atau tanpa internet</h3>
+        <p>KELANA tetap berjalan di jaringan lokal sekolah ketika internet berkendala, dan tetap dapat diakses daring ketika internet tersedia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo">
+    <h2>Coba Demo</h2>
+    <p class="intro">Silakan mencoba KELANA secara langsung pada server demo. Tidak perlu mendaftar &mdash; gunakan salah satu username demo di bawah ini.</p>
+    <div class="card">
+      <p><a class="btn" href="https://kelas.wartam.web.id/" target="_blank" rel="noopener">Buka KELANA Daring &rarr;</a></p>
+      <div class="kode-box">
+        <h3>Username demo</h3>
+        <p>Admin/guru: <code>admindemo</code></p>
+        <p>Murid: <code>demo1</code>, <code>demo2</code>, <code>demo3</code>, <code>demo4</code>, <code>demo5</code></p>
+      </div>
+      <p class="note">Ini adalah username demo untuk mencoba KELANA. Username demo bukan username sekolah &mdash; username resmi sekolah dibuat setelah pesanan disetujui dan nomor seri diterbitkan.</p>
+    </div>
+  </section>
+
+  <!-- CARA MENDAPATKAN -->
+  <section id="cara-mendapatkan">
+    <h2>Cara Mendapatkan KELANA</h2>
+    <p class="intro">Empat langkah mudah untuk menghadirkan KELANA di sekolah Anda.</p>
+    <ol class="langkah">
+      <li>
+        <h3>Isi formulir pemesanan</h3>
+        <p>Isi <a href="https://wartam-mjng.github.io/form-kelana/" target="_blank" rel="noopener">Formulir Pemesanan Aplikasi Kelana</a> dengan data sekolah Anda.</p>
+      </li>
+      <li>
+        <h3>Donasi seikhlasnya</h3>
+        <p>Donasi seikhlasnya via Bank BRI atas nama Wartam sebagai dukungan pengembangan KELANA.</p>
+      </li>
+      <li>
+        <h3>Wartam memverifikasi</h3>
+        <p>Pesanan diverifikasi, lalu disetujui. Setiap sekolah menerima satu nomor seri.</p>
+      </li>
+      <li>
+        <h3>Terima nomor seri + paket</h3>
+        <p>Setelah disetujui, sekolah menerima nomor seri dan paket KELANA siap dipasang di komputer sekolah.</p>
+      </li>
+    </ol>
+    <div class="card">
+      <p><strong>Lisensi:</strong> satu nomor seri per sekolah. Identitas lisensi disimpan di berkas <code>lisensi.txt</code> di samping aplikasi KELANA.</p>
+    </div>
+  </section>
+
+  <!-- UNDUH & PANDUAN -->
+  <section id="unduh">
+    <h2>Unduh &amp; Panduan</h2>
+    <p class="intro">Paket KELANA dikirim setelah pesanan disetujui. Tersedia dalam tiga bentuk pemasangan:</p>
+    <div class="fitur-grid">
+      <div class="fitur">
+        <h3>Exe Windows</h3>
+        <p>Paket siap jalan untuk komputer Windows. Saat pertama kali dibuka, Windows mungkin menampilkan peringatan SmartScreen atau antivirus &mdash; pilih opsi untuk tetap menjalankan, dan tambahkan pengecualian bila berkas dikarantina.</p>
+      </div>
+      <div class="fitur">
+        <h3>Paket Python</h3>
+        <p>Satu berkas Python (stdlib, tanpa dependensi tambahan) yang dijalankan langsung di komputer sekolah, luring maupun daring.</p>
+      </div>
+      <div class="fitur">
+        <h3>Paket VM</h3>
+        <p>Paket untuk mesin virtual Ubuntu Server di jaringan sekolah, lengkap dengan skrip pemasangan.</p>
+      </div>
+    </div>
+    <p class="note">Tautan unduhan tidak ditampilkan di halaman ini; paket dikirim langsung kepada sekolah setelah pesanan disetujui.</p>
+  </section>
+
+  <!-- VIDEO -->
+  <section id="video">
+    <h2>Video</h2>
+    <p class="intro">Simak bagaimana KELANA diseminasi dan digunakan bersama rekan sejawat.</p>
+    <div class="video-card">
+      <h3>Diseminasi Aplikasi KELANA ke Rekan Sejawat | Belajar Optimal Walau Internet Terkendala</h3>
+      <p><span class="durasi">Durasi 21:16</span></p>
+      <a class="btn" href="https://www.youtube.com/watch?v=uy3026YzHIo" target="_blank" rel="noopener">Tonton di YouTube &rarr;</a>
+    </div>
+  </section>
+
+  <!-- TANYA JAWAB -->
+  <section id="faq">
+    <h2>Tanya Jawab</h2>
+    <details>
+      <summary>Apa itu KELANA?</summary>
+      <p>KELANA adalah aplikasi server pembelajaran digital luring&ndash;daring berbasis Python. Guru berbagi berkas dan materi, murid mengerjakan kuis dengan koreksi otomatis, dan hasil kiriman terekam serta dapat diunduh sebagai CSV. KELANA terintegrasi dengan Papan Interaktif Digital sebagai pusat kendali di kelas.</p>
+    </details>
+    <details>
+      <summary>Apakah KELANA butuh internet?</summary>
+      <p>Tidak selalu. KELANA dirancang dua opsi: KELANA Daring bagi murid yang memiliki kuota, dan KELANA Luring melalui wifi/LAN sekolah bagi yang tidak. Ketika internet berkendala, pembelajaran tetap berjalan di jaringan lokal sekolah.</p>
+    </details>
+    <details>
+      <summary>Bagaimana lisensi KELANA?</summary>
+      <p>Lisensi KELANA bersifat lunak: setiap sekolah menerima satu nomor seri. Identitas lisensi disimpan di berkas <code>lisensi.txt</code> di samping aplikasi, dan ditampilkan di kaki halaman serta di halaman admin.</p>
+    </details>
+    <details>
+      <summary>Perangkat apa yang dibutuhkan?</summary>
+      <p>Untuk server: satu komputer sekolah (Windows atau mesin virtual Linux) yang terhubung ke jaringan sekolah. Untuk murid: HP atau laptop dengan peramban, terhubung ke wifi/LAN sekolah atau internet.</p>
+    </details>
+    <details>
+      <summary>Berapa biayanya?</summary>
+      <p>KELANA diperoleh dengan donasi seikhlasnya via Bank BRI atas nama Wartam. Isi formulir pemesanan, lalu pesanan diverifikasi sebelum nomor seri dan paket dikirim.</p>
+    </details>
+  </section>
+
+  <!-- KONTAK -->
+  <section id="kontak">
+    <h2>Kontak</h2>
+    <p class="intro">Punya pertanyaan tentang KELANA? Silakan hubungi:</p>
+    <div class="kontak-grid">
+      <div class="kontak-item">
+        <h3>WhatsApp</h3>
+        <a href="https://wa.me/628156095823" target="_blank" rel="noopener">wa.me/628156095823</a>
+      </div>
+      <div class="kontak-item">
+        <h3>Telegram</h3>
+        <a href="https://t.me/Wartam_mjng" target="_blank" rel="noopener">t.me/Wartam_mjng</a>
+      </div>
+      <div class="kontak-item">
+        <h3>Email</h3>
+        <a href="mailto:wartam47@guru.smp.belajar.id">wartam47@guru.smp.belajar.id</a>
+      </div>
+      <div class="kontak-item">
+        <h3>Portal Utama</h3>
+        <a href="https://portal.wartam.web.id/" target="_blank" rel="noopener">portal.wartam.web.id</a>
+      </div>
+      <div class="kontak-item">
+        <h3>Situs PGRI</h3>
+        <a href="https://pgri.wartam.web.id/" target="_blank" rel="noopener">pgri.wartam.web.id</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><span class="tag">KELANA</span> &mdash; Belajar optimal walau internet terkendala</p>
+  <p>Dikembangkan oleh Wartam, S.Pd., SMP Negeri 4 Majenang</p>
+</footer>
+
+</body>
+</html>
