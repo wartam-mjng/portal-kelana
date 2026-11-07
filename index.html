@@ -64,6 +64,7 @@
   section { padding: 44px 0 8px; }
   .page { display: none; }
   .page.active { display: block; }
+  #beranda { padding-top: 0; }
   .back {
     background: none;
     border: none;
@@ -294,13 +295,13 @@
     <a class="brand" href="#beranda" data-page="beranda">KELANA<small>Portal Resmi</small></a>
     <nav>
       <ul>
-        <li><a href="#dashboard" data-page="dashboard">Dashboard</a></li>
         <li><a href="#demo" data-page="demo">Demo</a></li>
         <li><a href="#cara-mendapatkan" data-page="cara-mendapatkan">Cara Mendapatkan</a></li>
         <li><a href="#unduh" data-page="unduh">Unduh &amp; Panduan</a></li>
         <li><a href="#video" data-page="video">Video</a></li>
         <li><a href="#faq" data-page="faq">Tanya Jawab</a></li>
         <li><a href="#kontak" data-page="kontak">Kontak</a></li>
+        <li><a href="https://docs.google.com/spreadsheets/d/11JqX2qutEKxl4K3EedbWBMfkVx8koW6sc5bBtiaR_54/edit?usp=sharing" target="_blank" rel="noopener">Database</a></li>
       </ul>
     </nav>
   </div>
@@ -308,18 +309,15 @@
 
 <main>
 
-  <!-- BERANDA (hero, tampil di awal) -->
-  <section id="beranda" class="page hero active">
-    <h1>Kelana: Aplikasi Server Pembelajaran Digital Berbasis Python Terintegrasi Papan Interaktif Digital</h1>
-    <p class="tagline">Belajar optimal walau internet terkendala</p>
-    <p class="lead">KELANA adalah aplikasi server pembelajaran digital luring&ndash;daring untuk sekolah: guru berbagi berkas dan materi, murid mengerjakan kuis, dan hasilnya terekam otomatis &mdash; dengan atau tanpa internet.</p>
-    <a class="btn" href="https://kelas.wartam.web.id/" target="_blank" rel="noopener">Coba Demo</a>
-    <a class="btn ghost" href="https://wartam-mjng.github.io/form-kelana/" target="_blank" rel="noopener">Pesan KELANA</a>
-  </section>
-
-  <!-- DASHBOARD -->
-  <section id="dashboard" class="page">
-    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
+  <!-- BERANDA (dashboard, tampil di awal) -->
+  <section id="beranda" class="page active">
+    <div class="hero">
+      <h1>Kelana: Aplikasi Server Pembelajaran Digital Berbasis Python Terintegrasi Papan Interaktif Digital</h1>
+      <p class="tagline">Belajar optimal walau internet terkendala</p>
+      <p class="lead">KELANA adalah aplikasi server pembelajaran digital luring&ndash;daring untuk sekolah: guru berbagi berkas dan materi, murid mengerjakan kuis, dan hasilnya terekam otomatis &mdash; dengan atau tanpa internet.</p>
+      <a class="btn" href="https://kelas.wartam.web.id/" target="_blank" rel="noopener">Coba Demo</a>
+      <a class="btn ghost" href="https://wartam-mjng.github.io/form-kelana/" target="_blank" rel="noopener">Pesan KELANA</a>
+    </div>
     <h2>Dashboard</h2>
     <p class="intro">KELANA dikembangkan oleh Wartam, S.Pd., guru Matematika SMP Negeri 4 Majenang, Kabupaten Cilacap. Aplikasi ini lahir dari kebutuhan nyata di kelas: sekolah belum memiliki internet kabel dan Papan Interaktif Digital belum termanfaatkan optimal, sementara hampir seluruh murid memiliki HP. KELANA dirancang dua opsi &mdash; KELANA Daring bagi murid yang memiliki kuota, dan KELANA Luring melalui wifi/LAN sekolah bagi yang tidak &mdash; sehingga tidak ada murid yang tertinggal.</p>
     <div class="fitur-grid">
@@ -382,6 +380,11 @@
       <a class="akses-card" href="#kontak" data-page="kontak">
         <h4>Kontak</h4>
         <p>Hubungi pengembang KELANA lewat WhatsApp, Telegram, atau email.</p>
+        <span>Buka &rarr;</span>
+      </a>
+      <a class="akses-card" href="https://docs.google.com/spreadsheets/d/11JqX2qutEKxl4K3EedbWBMfkVx8koW6sc5bBtiaR_54/edit?usp=sharing" target="_blank" rel="noopener">
+        <h4>Database</h4>
+        <p>Data dan catatan KELANA dalam Google Spreadsheet.</p>
         <span>Buka &rarr;</span>
       </a>
     </div>
