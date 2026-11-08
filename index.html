@@ -492,7 +492,7 @@
     <h3>Persyaratan</h3>
     <p>Sebelum memulai, siapkan hal-hal berikut:</p>
     <ul>
-      <li><strong>Server (VPS):</strong> VPS dengan Ubuntu 24.04, minimal 1 vCPU / 1 GB RAM / 10 GB disk (disarankan 2 vCPU / 2 GB RAM / 40 GB). Server harus punya alamat IP publik, akses SSH, dan hak sudo/root. Port 80 (HTTP) dan 443 (HTTPS) harus terbuka di firewall/security group VPS.</li>
+      <li><strong>Server (VPS):</strong> VPS dengan Ubuntu 24.04, minimal 1 vCPU / 1 GB RAM / 10 GB disk (disarankan 2 vCPU / 2 GB RAM / 40 GB). Server harus punya alamat IP publik, akses SSH, dan hak sudo/root. Port 80 (HTTP) dan 443 (HTTPS) harus terbuka di firewall/security group VPS. (Bila memakai VPS Windows, lihat bagian &ldquo;Bila memakai VPS Windows&rdquo; di bawah.)</li>
       <li><strong>Domain:</strong> sebuah domain atau subdomain (contoh: <code>kelas.sekolah.sch.id</code>), beserta akses ke pengaturan DNS untuk menambah record A yang mengarah ke IP VPS.</li>
       <li><strong>Perangkat lunak:</strong> Python 3, Caddy (reverse proxy + HTTPS otomatis), git, dan systemd — semuanya tersedia di Ubuntu.</li>
       <li><strong>Berkas KELANA:</strong> <code>kelana.py</code>, <code>lisensi.txt</code> (dari paket unduhan sekolah), <code>kode.txt</code> (username murid), <code>kode-admin.txt</code> (username admin), dan folder <code>publik/</code> berisi materi.</li>
@@ -570,6 +570,31 @@ sudo systemctl restart kelana</pre>
       <li>Service tidak berjalan: lihat pesannya dengan <code>journalctl -u kelana --no-pager | tail -20</code>.</li>
       <li>HTTPS belum aktif: Caddy baru bisa menerbitkan sertifikat setelah domain benar-benar mengarah ke IP VPS — tunggu penyebaran DNS, lalu <code>sudo systemctl reload caddy</code>.</li>
     </ul>
+
+    <h3>Bila memakai VPS Windows</h3>
+    <p>KELANA juga bisa di-online-kan di VPS Windows, hanya saja langkahnya memakai perkakas Windows. Linux tetap lebih sederhana dan disarankan bila Anda bebas memilih.</p>
+    <ul>
+      <li><strong>VPS Windows:</strong> VPS dengan Windows Server, akses Remote Desktop (RDP), dan hak administrator. Port 80 dan 443 harus terbuka di Windows Firewall dan di security group VPS.</li>
+      <li><strong>Berkas KELANA:</strong> gunakan <code>kelana.exe</code> dari paket unduhan (tidak perlu memasang Python). Letakkan <code>kelana.exe</code>, <code>lisensi.txt</code>, <code>kode.txt</code>, <code>kode-admin.txt</code>, dan folder <code>publik/</code> dalam satu folder, misalnya <code>C:\kelana\</code>.</li>
+      <li><strong>Jalankan KELANA:</strong> buat berkas <code>start-kelana.bat</code> di folder tersebut dengan isi berikut, lalu jalankan sekali untuk mencoba:</li>
+    </ul>
+    <pre>set HOST=127.0.0.1
+set PORT=8000
+kelana.exe</pre>
+    <p>Bila sudah jalan, buka <code>http://127.0.0.1:8000</code> di peramban VPS untuk memastikan.</p>
+    <ul>
+      <li><strong>Caddy untuk Windows:</strong> unduh <code>caddy.exe</code> dari situs resmi Caddy, letakkan di folder yang sama, lalu buat berkas <code>Caddyfile</code> berisi (ganti dengan subdomain Anda):</li>
+    </ul>
+    <pre>kelas.sekolah.sch.id {
+        reverse_proxy 127.0.0.1:8000
+}</pre>
+    <p>Jalankan dengan <code>caddy run</code> dari folder itu. Caddy otomatis mengurus sertifikat HTTPS.</p>
+    <ul>
+      <li><strong>Jalan otomatis saat server hidup:</strong> gunakan Task Scheduler (Penjadwal Tugas) — buat tugas yang menjalankan <code>start-kelana.bat</code> dan <code>caddy run</code> saat startup (pemicu &ldquo;At startup&rdquo;, dengan hak administrator).</li>
+      <li><strong>Firewall:</strong> izinkan port 80 dan 443 di Windows Defender Firewall.</li>
+      <li><strong>DNS:</strong> sama seperti Linux — record A subdomain ke IP VPS, lalu buka <code>https://kelas.sekolah.sch.id</code>.</li>
+    </ul>
+    <p class="note">Catatan: panduan Windows ini belum diuji ujung-ke-ujung di VPS Windows sungguhan. Bila Anda menemukan kendala, kabari pengembang KELANA lewat halaman Kontak.</p>
   </section>
 
   <!-- VIDEO TUTORIAL -->
