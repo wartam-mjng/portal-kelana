@@ -200,6 +200,16 @@
     padding: 12px 16px;
     font-size: .93rem;
   }
+  pre {
+    background: #1f2937;
+    color: #f9fafb;
+    border-radius: 12px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: .88rem;
+    line-height: 1.5;
+    margin: 10px 0;
+  }
   /* ---------- langkah ---------- */
   .langkah { list-style: none; counter-reset: langkah; }
   .langkah li {
@@ -298,6 +308,7 @@
         <li><a href="#demo" data-page="demo">Demo</a></li>
         <li><a href="#cara-mendapatkan" data-page="cara-mendapatkan">Cara Mendapatkan</a></li>
         <li><a href="#tata-cara-mengunduh" data-page="tata-cara-mengunduh">Tata Cara Mengunduh</a></li>
+        <li><a href="#panduan-mengonlinekan" data-page="panduan-mengonlinekan">Panduan Mengonlinekan</a></li>
         <li><a href="#video" data-page="video">Video Tutorial</a></li>
         <li><a href="#faq" data-page="faq">Tanya Jawab</a></li>
         <li><a href="#kontak" data-page="kontak">Kontak</a></li>
@@ -366,6 +377,11 @@
       <a class="akses-card" href="#tata-cara-mengunduh" data-page="tata-cara-mengunduh">
         <h4>Tata Cara Mengunduh</h4>
         <p>Lima langkah mengunduh paket KELANA setelah pesanan disetujui.</p>
+        <span>Buka &rarr;</span>
+      </a>
+      <a class="akses-card" href="#panduan-mengonlinekan" data-page="panduan-mengonlinekan">
+        <h4>Panduan Mengonlinekan</h4>
+        <p>Persyaratan dan langkah memasang KELANA di VPS agar bisa diakses lewat internet.</p>
         <span>Buka &rarr;</span>
       </a>
       <a class="akses-card" href="#video" data-page="video">
@@ -465,6 +481,95 @@
       </li>
     </ol>
     <p class="note">Bila status masih &ldquo;Menunggu&rdquo;, pesanan Anda belum disetujui &mdash; silakan cek berkala. Bila ada kendala, hubungi Wartam melalui <a href="https://wa.me/628156095823" target="_blank" rel="noopener">WhatsApp</a>.</p>
+  </section>
+
+  <!-- PANDUAN MENGONLINEKAN -->
+  <section id="panduan-mengonlinekan" class="page">
+    <button type="button" class="back" data-page="beranda">&larr; Kembali ke Beranda</button>
+    <h2>Panduan Mengonlinekan KELANA</h2>
+    <p class="intro">KELANA bisa diakses lewat internet (daring) bila dijalankan di sebuah VPS. Berkas <code>kelana.py</code> yang sama dipakai luring maupun daring; yang berbeda hanya tempat menjalankannya.</p>
+
+    <h3>Persyaratan</h3>
+    <p>Sebelum memulai, siapkan hal-hal berikut:</p>
+    <ul>
+      <li><strong>Server (VPS):</strong> VPS dengan Ubuntu 24.04, minimal 1 vCPU / 1 GB RAM / 10 GB disk (disarankan 2 vCPU / 2 GB RAM / 40 GB). Server harus punya alamat IP publik, akses SSH, dan hak sudo/root. Port 80 (HTTP) dan 443 (HTTPS) harus terbuka di firewall/security group VPS.</li>
+      <li><strong>Domain:</strong> sebuah domain atau subdomain (contoh: <code>kelas.sekolah.sch.id</code>), beserta akses ke pengaturan DNS untuk menambah record A yang mengarah ke IP VPS.</li>
+      <li><strong>Perangkat lunak:</strong> Python 3, Caddy (reverse proxy + HTTPS otomatis), git, dan systemd — semuanya tersedia di Ubuntu.</li>
+      <li><strong>Berkas KELANA:</strong> <code>kelana.py</code>, <code>lisensi.txt</code> (dari paket unduhan sekolah), <code>kode.txt</code> (username murid), <code>kode-admin.txt</code> (username admin), dan folder <code>publik/</code> berisi materi.</li>
+      <li><strong>Kemampuan dasar:</strong> menjalankan perintah di terminal dan memakai SSH.</li>
+    </ul>
+
+    <h3>Langkah 1 — Siapkan VPS</h3>
+    <p>Buat VPS Ubuntu 24.04 di penyedia layanan pilihan Anda, catat alamat IP publiknya, dan pastikan port 80 dan 443 terbuka. Masuk ke VPS lewat SSH (ganti <code>ALAMAT-IP-VPS</code> dengan IP VPS Anda, dan <code>ubuntu</code> dengan username VPS Anda bila berbeda):</p>
+    <pre>ssh ubuntu@ALAMAT-IP-VPS</pre>
+
+    <h3>Langkah 2 — Pasang Python, git, dan Caddy</h3>
+    <p>Di dalam VPS, jalankan perintah berikut:</p>
+    <pre>sudo apt update
+sudo apt install -y python3 git
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install -y caddy</pre>
+
+    <h3>Langkah 3 — Salin berkas KELANA ke VPS</h3>
+    <p>Dari laptop, salin folder jalan KELANA ke VPS (sekali saja):</p>
+    <pre>scp -r kelana ubuntu@ALAMAT-IP-VPS:/home/ubuntu/kelana</pre>
+    <p>Isi folder <code>kelana</code>: <code>kelana.py</code> + <code>kode.txt</code> + <code>kode-admin.txt</code> + <code>publik/</code> + <code>lisensi.txt</code> (folder <code>hasil/</code> boleh kosong). Untuk pembaruan berikutnya, cukup ganti <code>kelana.py</code> saja — jangan timpa <code>publik/</code>, <code>kode.txt</code>, <code>kode-admin.txt</code>, atau <code>hasil/</code>.</p>
+
+    <h3>Langkah 4 — Pasang service systemd (jalan otomatis)</h3>
+    <p>Service membuat KELANA berjalan terus di latar belakang dan hidup lagi sendiri bila server di-restart. Berkas <code>kelana.service</code> tersedia di folder <code>deploy-vps/</code> pada repo KELANA. Di VPS, jalankan satu per satu:</p>
+    <pre>sudo cp /home/ubuntu/kelana/kelana.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now kelana
+systemctl status kelana --no-pager | head -5</pre>
+    <p>Baris terakhir harus menunjukkan <code>active (running)</code>.</p>
+
+    <h3>Langkah 5 — Arahkan subdomain lewat Caddy (HTTPS otomatis)</h3>
+    <p>Buka file Caddy, lalu tambahkan blok berikut di bagian paling bawah (ganti dengan subdomain Anda):</p>
+    <pre>sudo nano /etc/caddy/Caddyfile</pre>
+    <pre>kelas.sekolah.sch.id {
+        reverse_proxy 127.0.0.1:8000
+}</pre>
+    <p>Simpan (Ctrl+O, Enter, Ctrl+X), lalu muat ulang Caddy:</p>
+    <pre>sudo systemctl reload caddy</pre>
+    <p>Caddy otomatis mengurus sertifikat HTTPS (Let&rsquo;s Encrypt).</p>
+
+    <h3>Langkah 6 — Atur DNS</h3>
+    <p>Di tempat Anda mengelola DNS domain, tambah record:</p>
+    <pre>Type : A
+Name : kelas
+Value: ALAMAT-IP-VPS</pre>
+    <p>Tunggu 5–15 menit agar DNS menyebar, lalu buka <code>https://kelas.sekolah.sch.id</code>.</p>
+
+    <h3>Langkah 7 — Isi username dan lisensi</h3>
+    <p>Edit dua berkas ini di VPS (satu username per baris):</p>
+    <pre>/home/ubuntu/kelana/kode.txt       → username murid
+/home/ubuntu/kelana/kode-admin.txt → username admin/guru</pre>
+    <p>Letakkan <code>lisensi.txt</code> sekolah Anda di samping <code>kelana.py</code>. Segera ganti username admin bawaan <code>admin</code>: sesudah masuk, buat username admin sendiri di <code>/admin</code>, lalu hapus <code>admin</code>, karena <code>admin</code> mudah ditebak siapa pun. Perubahan username berlaku langsung tanpa restart.</p>
+
+    <h3>Memperbarui KELANA</h3>
+    <p>Bila ada versi baru, cukup ganti <code>kelana.py</code> lalu restart service (data tidak disentuh):</p>
+    <pre>scp kelana.py ubuntu@ALAMAT-IP-VPS:/home/ubuntu/kelana/kelana.py
+ssh ubuntu@ALAMAT-IP-VPS
+sudo systemctl restart kelana</pre>
+    <p>Atau pakai skrip <code>update-vps.sh</code> dari repo (git pull, salin kelana.py, restart service).</p>
+
+    <h3>Keamanan</h3>
+    <ul>
+      <li>KELANA hanya mendengar di 127.0.0.1 — yang menghadap internet adalah Caddy dengan HTTPS. Port 8000 tidak perlu dibuka di firewall.</li>
+      <li>Ganti username admin bawaan <code>admin</code> segera setelah pemasangan pertama.</li>
+      <li>Berkas <code>kode.txt</code>, <code>kode-admin.txt</code>, dan isi <code>hasil/</code> adalah data sekolah — jangan masukkan ke repo publik dan jangan dibagikan.</li>
+      <li>Perbarui server secara berkala (<code>sudo apt update &amp;&amp; sudo apt upgrade</code>).</li>
+    </ul>
+
+    <h3>Bila ada masalah</h3>
+    <ul>
+      <li>Halaman tidak terbuka: periksa service (<code>systemctl status kelana</code>) dan Caddy (<code>systemctl status caddy</code>), pastikan DNS sudah mengarah ke IP VPS, dan pastikan port 80/443 terbuka.</li>
+      <li>Service tidak berjalan: lihat pesannya dengan <code>journalctl -u kelana --no-pager | tail -20</code>.</li>
+      <li>HTTPS belum aktif: Caddy baru bisa menerbitkan sertifikat setelah domain benar-benar mengarah ke IP VPS — tunggu penyebaran DNS, lalu <code>sudo systemctl reload caddy</code>.</li>
+    </ul>
   </section>
 
   <!-- VIDEO TUTORIAL -->
