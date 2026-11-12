@@ -59,6 +59,27 @@
     border-radius: 8px;
   }
   nav a:hover { background: rgba(255, 255, 255, .16); color: #fff; }
+  nav li { position: relative; }
+  nav .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 190px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+    padding: 6px;
+    z-index: 60;
+  }
+  nav .submenu a {
+    display: block;
+    color: #0f766e;
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+  nav .submenu a:hover { background: #f0fdfa; color: #0f766e; }
+  nav li:hover > .submenu, nav li.open > .submenu { display: block; }
   /* ---------- layout & halaman ---------- */
   main { max-width: 1020px; margin: 0 auto; padding: 0 20px 40px; }
   section { padding: 44px 0 8px; }
@@ -306,14 +327,19 @@
     <nav>
       <ul>
         <li><a href="#demo" data-page="demo">Demo</a></li>
-        <li><a href="#cara-mendapatkan" data-page="cara-mendapatkan">Cara Mendapatkan</a></li>
-        <li><a href="#tata-cara-mengunduh" data-page="tata-cara-mengunduh">Tata Cara Mengunduh</a></li>
+        <li><a href="#cara-mendapatkan" data-page="cara-mendapatkan">Daftar</a></li>
+        <li><a href="#tata-cara-mengunduh" data-page="tata-cara-mengunduh">Unduh</a></li>
         <li><a href="#panduan-mengonlinekan" data-page="panduan-mengonlinekan">Panduan Mengonlinekan</a></li>
-        <li><a href="#video" data-page="video">Video Tutorial</a></li>
+        <li><a href="#video" data-page="video">Tutorial</a></li>
         <li><a href="#faq" data-page="faq">Tanya Jawab</a></li>
-        <li><a href="#kontak" data-page="kontak">Kontak</a></li>
-        <li><a href="https://docs.google.com/spreadsheets/d/11JqX2qutEKxl4K3EedbWBMfkVx8koW6sc5bBtiaR_54/edit?usp=sharing" target="_blank" rel="noopener">Database</a></li>
-        <li><a href="https://wartam-mjng.github.io/form-kelana/admin.html" target="_blank" rel="noopener">Admin</a></li>
+        <li class="has-sub">
+          <a href="#" id="menu-admin">Admin &#9662;</a>
+          <div class="submenu">
+            <a href="#kontak" data-page="kontak">Kontak</a>
+            <a href="https://docs.google.com/spreadsheets/d/11JqX2qutEKxl4K3EedbWBMfkVx8koW6sc5bBtiaR_54/edit?usp=sharing" target="_blank" rel="noopener">Database</a>
+            <a href="https://wartam-mjng.github.io/form-kelana/admin.html" target="_blank" rel="noopener">Admin</a>
+          </div>
+        </li>
       </ul>
     </nav>
   </div>
@@ -370,12 +396,12 @@
         <span>Buka &rarr;</span>
       </a>
       <a class="akses-card" href="#cara-mendapatkan" data-page="cara-mendapatkan">
-        <h4>Cara Mendapatkan</h4>
+        <h4>Daftar</h4>
         <p>Empat langkah menghadirkan KELANA di sekolah Anda.</p>
         <span>Buka &rarr;</span>
       </a>
       <a class="akses-card" href="#tata-cara-mengunduh" data-page="tata-cara-mengunduh">
-        <h4>Tata Cara Mengunduh</h4>
+        <h4>Unduh</h4>
         <p>Lima langkah mengunduh paket KELANA setelah pesanan disetujui.</p>
         <span>Buka &rarr;</span>
       </a>
@@ -385,7 +411,7 @@
         <span>Buka &rarr;</span>
       </a>
       <a class="akses-card" href="#video" data-page="video">
-        <h4>Video Tutorial</h4>
+        <h4>Tutorial</h4>
         <p>Video tutorial penggunaan KELANA (segera hadir).</p>
         <span>Buka &rarr;</span>
       </a>
@@ -676,6 +702,21 @@ kelana.exe</pre>
     e.preventDefault();
     show(t.getAttribute("data-page"));
   });
+  /* Menu Admin (dropdown): klik untuk membuka/menutup di layar sentuh */
+  var adminToggle = document.getElementById("menu-admin");
+  var adminItem = adminToggle ? adminToggle.closest("li") : null;
+  if(adminToggle && adminItem){
+    adminToggle.addEventListener("click", function(e){
+      e.preventDefault();
+      adminItem.classList.toggle("open");
+    });
+    document.addEventListener("click", function(e){
+      if(!e.target.closest(".has-sub")) adminItem.classList.remove("open");
+    });
+    adminItem.querySelectorAll(".submenu a").forEach(function(a){
+      a.addEventListener("click", function(){ adminItem.classList.remove("open"); });
+    });
+  }
   var h = (location.hash || "").replace("#", "");
   show(document.getElementById(h) ? h : "beranda");
 })();
